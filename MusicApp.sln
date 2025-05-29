@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35931.197 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicApp.Identity.API", "MusicApp.Identity.API\MusicApp.Identity.API.csproj", "{CBA74A4D-75A3-4318-AC8B-3A596FFD1B03}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CBA74A4D-75A3-4318-AC8B-3A596FFD1B03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBA74A4D-75A3-4318-AC8B-3A596FFD1B03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBA74A4D-75A3-4318-AC8B-3A596FFD1B03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBA74A4D-75A3-4318-AC8B-3A596FFD1B03}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A17096FC-BBF1-4203-8C91-93236E4455C8}
+	EndGlobalSection
+EndGlobal

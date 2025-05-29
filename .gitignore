@@ -66,7 +66,6 @@ logs/
 # Ignore user-specific files
 *.rsuser
 *.userprefs
-*.sln*
 
 # =====================
 # ReactJS Ignore Rules
