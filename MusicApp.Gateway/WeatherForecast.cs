@@ -1,4 +1,4 @@
-namespace MusicApp.Identity.API
+namespace MusicApp.Gateway
 {
     public class WeatherForecast
     {

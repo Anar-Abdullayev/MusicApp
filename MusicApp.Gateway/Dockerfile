@@ -12,19 +12,19 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["./MusicApp.Identity.API.csproj", "MusicApp.Identity.API/"]
-RUN dotnet restore "./MusicApp.Identity.API/MusicApp.Identity.API.csproj"
-COPY . "MusicApp.Identity.API/"
-WORKDIR "/src/MusicApp.Identity.API"
-RUN dotnet build "./MusicApp.Identity.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
+COPY ["./MusicApp.Gateway.csproj", "MusicApp.Gateway/"]
+RUN dotnet restore "MusicApp.Gateway/MusicApp.Gateway.csproj"
+COPY . "MusicApp.Gateway/"
+WORKDIR "/src/MusicApp.Gateway"
+RUN dotnet build "./MusicApp.Gateway.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./MusicApp.Identity.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./MusicApp.Gateway.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 # This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "MusicApp.Identity.API.dll"]
+ENTRYPOINT ["dotnet", "MusicApp.Gateway.dll"]
