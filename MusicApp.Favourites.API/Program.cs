@@ -13,6 +13,13 @@ namespace MusicApp.Favourites.API
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddCors(builder =>
+            {
+                builder.AddPolicy("AllowAllOrigins",
+                     policy => policy.AllowAnyOrigin()
+                                     .AllowAnyMethod()
+                                     .AllowAnyHeader());
+            });
 
             var app = builder.Build();
 
@@ -24,7 +31,7 @@ namespace MusicApp.Favourites.API
             }
 
             app.UseHttpsRedirection();
-
+            app.UseCors("AllowAllOrigins");
             app.UseAuthorization();
 
 

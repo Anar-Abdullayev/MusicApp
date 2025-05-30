@@ -19,6 +19,13 @@ namespace MusicApp.Gateway
             builder.Services.AddSwaggerGen();
             builder.Services.AddOcelot();
 
+            builder.Services.AddCors(builder =>
+            {
+                builder.AddPolicy("AllowAllOrigins",
+                     policy => policy.WithOrigins("http://localhost:5173", "http://localhost:3000")
+                                     .AllowAnyMethod()
+                                     .AllowAnyHeader());
+            });
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -29,7 +36,7 @@ namespace MusicApp.Gateway
             }
 
             app.UseHttpsRedirection();
-
+            app.UseCors("AllowAllOrigins");
             app.UseAuthorization();
             await app.UseOcelot();
             app.Run();
