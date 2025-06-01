@@ -6,7 +6,9 @@ let musicSlice = createSlice({
         musics: []
     },
     reducers: {
-
+        setMusicList: (state, action) => {
+            state.musics = action.payload;
+        }
     }
 })
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MusicApp.Music.API.Data.Entities;
 
 namespace MusicApp.Music.API.Data
 {
@@ -8,5 +9,7 @@ namespace MusicApp.Music.API.Data
         {
             
         }
+
+        public DbSet<MusicItem> Musics { get; set; }
     }
 }

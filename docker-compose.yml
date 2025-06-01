@@ -4,8 +4,12 @@ services:
   favourite:
     build: ./MusicApp.Favourites.API
     container_name: favourite
+    depends_on:
+      - redis
     ports:
       - "5001:8080"
+    environment:
+      - REDIS_CONNECTION=redis:6379
     networks: [ musicnet ]
   
   music:
@@ -52,8 +56,18 @@ services:
       - sql_data:/var/opt/mssql
     restart: always
     networks: [ musicnet ]
+  redis:
+    image: redis:7.2
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+    networks: [ musicnet ]
 networks:
   musicnet:
     driver: bridge
 volumes:
   sql_data:
+  redis-data:

@@ -4,6 +4,6 @@
     {
         public string Name { get; set; }
         public IFormFile MusicFile { get; set; }
-        public IFormFile PhotoFile { get; set; }
+        public IFormFile? PhotoFile { get; set; }
     }
 }
