@@ -1,14 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MusicApp.Identity.API.Data.Entities;
 using MusicApp.Identity.API.DTOs;
+using MusicApp.Identity.API.Services;
 
 namespace MusicApp.Identity.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountController(UserManager<ApplicationUser> _userManager, RoleManager<ApplicationRole> _roleManager) : ControllerBase
+    public class AccountController(UserManager<ApplicationUser> _userManager, RoleManager<ApplicationRole> _roleManager, ITokenService _tokenService) : ControllerBase
     {
         [HttpGet]
         public async Task<ActionResult> GetAccount()
@@ -54,6 +54,24 @@ namespace MusicApp.Identity.API.Controllers
             }
 
             return Ok("User registered successfully");
+        }
+
+        [HttpPost("login")]
+        public async Task<ActionResult> Login([FromBody] LoginRequestDto request)
+        {
+            var user = await _userManager.FindByNameAsync(request.Username);
+            if (user is null)
+                return NotFound();
+
+            if (await _userManager.CheckPasswordAsync(user, request.Password))
+            {
+                string token = _tokenService.GenerateLoginToken(user);
+                return Ok(new
+                {
+                    Token = token
+                });
+            }
+            return BadRequest("Wrong password");
         }
     }
 }

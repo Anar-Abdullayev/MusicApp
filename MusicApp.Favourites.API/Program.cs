@@ -33,7 +33,7 @@ namespace MusicApp.Favourites.API
             app.UseHttpsRedirection();
             app.UseCors("AllowAllOrigins");
             app.UseAuthorization();
-
+            
 
             app.MapControllers();
 

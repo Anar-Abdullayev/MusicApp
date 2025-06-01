@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { baseURL } from './assets/baseEnvironment'
 import { Route, BrowserRouter as Router, Routes, useNavigate } from 'react-router-dom';
 import LoginRegister from './components/LoginRegister';
+import DefaultLayout from './components/DefaultLayout';
 
 function App() {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ function App() {
 
   return (
     <Routes>
-      <Route path='/' element={localStorage.getItem("TOKEN_KEY") ? <div>Main Page</div> : <LoginRegister />}></Route>
+      <Route path='/' element={localStorage.getItem("TOKEN_KEY") ? <DefaultLayout /> : <LoginRegister />}></Route>
     </Routes>
   )
 }

@@ -1,4 +1,7 @@
 
+using Microsoft.EntityFrameworkCore;
+using MusicApp.Music.API.Data;
+
 namespace MusicApp.Music.API
 {
     public class Program
@@ -20,6 +23,7 @@ namespace MusicApp.Music.API
                                      .AllowAnyMethod()
                                      .AllowAnyHeader());
             });
+            builder.Services.AddDbContext<ApplicationDbContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

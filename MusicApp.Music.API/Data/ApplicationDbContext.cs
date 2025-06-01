@@ -1,6 +1,12 @@
-﻿namespace MusicApp.Music.API.Data
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace MusicApp.Music.API.Data
 {
-    public class ApplicationDbContext
+    public class ApplicationDbContext : DbContext
     {
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        {
+            
+        }
     }
 }

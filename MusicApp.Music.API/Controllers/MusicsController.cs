@@ -12,5 +12,8 @@ namespace MusicApp.Music.API.Controllers
         {
             return Ok("From musics");
         }
+
+        [HttpPost]
+        public async Task<ActionResult> UploadMusic([FromBody] )
     }
 }

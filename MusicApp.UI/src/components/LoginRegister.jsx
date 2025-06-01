@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { registerFetch } from "../store/slices/account/accountFetchs";
+import { loginFetch, registerFetch } from "../store/slices/account/accountFetchs";
+import { useNavigate } from "react-router-dom";
 
 const LoginRegister = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
-  const handleLogin = () => {
-    console.log("Login attempt", { username, password });
-    // TODO: integrate login API
+  const navigate = useNavigate();
+  const handleLogin = async () => {
+    await dispatch(loginFetch({ Username: username, Password: password }));
+    navigate("/");
   };
 
   const handleRegister = () => {
