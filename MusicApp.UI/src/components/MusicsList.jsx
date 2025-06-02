@@ -2,10 +2,14 @@ import { useEffect, useState, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteMusicFetch, getMusicsFetch } from "../store/slices/music/musicFetchs";
+import { addFavouriteFetch, getFavouritesFetch, removeFavouriteFetch } from "../store/slices/favourite/favouritesFetchs";
 
 export default function MusicList() {
   const dispatch = useDispatch();
   const musicList = useSelector((state) => state.music.musics);
+  const favoriteMusicIds = useSelector((state) => state.favourite.favourites);
+  console.log(favoriteMusicIds)
+  const isFavorite = (id) => favoriteMusicIds.includes(id);
   const audioRefs = useRef({});
   const [playingId, setPlayingId] = useState(null);
   const [pausedIds, setPausedIds] = useState({});
@@ -13,6 +17,7 @@ export default function MusicList() {
 
   useEffect(() => {
     dispatch(getMusicsFetch());
+    dispatch(getFavouritesFetch());
   }, []);
 
   const playMusic = (id) => {
@@ -64,18 +69,18 @@ export default function MusicList() {
   };
 
   const stepForward = (id) => {
-  const audio = audioRefs.current[id];
-  if (audio && audio.readyState >= 1) {
-    audio.currentTime = Math.min(audio.currentTime + 10, audio.duration);
-  }
-};
+    const audio = audioRefs.current[id];
+    if (audio && audio.readyState >= 1) {
+      audio.currentTime = Math.min(audio.currentTime + 10, audio.duration);
+    }
+  };
 
-const stepBackward = (id) => {
-  const audio = audioRefs.current[id];
-  if (audio && audio.readyState >= 1) {
-    audio.currentTime = Math.max(audio.currentTime - 10, 0);
-  }
-};
+  const stepBackward = (id) => {
+    const audio = audioRefs.current[id];
+    if (audio && audio.readyState >= 1) {
+      audio.currentTime = Math.max(audio.currentTime - 10, 0);
+    }
+  };
 
   const deleteMusic = (id) => {
     stopMusic(id);
@@ -85,18 +90,47 @@ const stepBackward = (id) => {
   const isPaused = (id) => pausedIds[id];
   const isPlaying = (id) => playingId === id && !isPaused(id);
 
+
+  const toggleFavorite = (id) => {
+    const isFav = isFavorite(id);
+
+    if (isFav){
+      dispatch(removeFavouriteFetch(id))
+    }
+    else{
+      dispatch(addFavouriteFetch(id));
+    }
+  }
+
   return (
     <div className="container mt-4">
       <div className="row g-4">
         {musicList.map((music) => (
           <div className="col-md-4" key={music.id}>
             <div className="card shadow-sm h-100">
-              <img
-                src={`${baseFileShareURL}${music.photoPath}`}
-                alt={music.name}
-                className="card-img-top"
-                style={{ objectFit: "cover", height: "200px" }}
-              />
+              <div style={{ position: "relative" }}>
+                <img
+                  src={`${baseFileShareURL}${music.photoPath}`}
+                  alt={music.name}
+                  className="card-img-top"
+                  style={{ objectFit: "cover", height: "200px" }}
+                />
+                <button
+                  onClick={() => toggleFavorite(music.id)}
+                  className="btn btn-light btn-sm"
+                  style={{
+                    position: "absolute",
+                    top: "10px",
+                    right: "10px",
+                    borderRadius: "50%",
+                    padding: "6px 8px",
+                    backgroundColor: "white",
+                    border: "none",
+                  }}
+                >
+                  {isFavorite(music.id) ? "❤️" : "🤍"}
+                </button>
+              </div>
               <div className="card-body">
                 <h5 className="card-title">{music.name}</h5>
 

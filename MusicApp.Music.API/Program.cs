@@ -27,7 +27,9 @@ namespace MusicApp.Music.API
                                      .AllowAnyMethod()
                                      .AllowAnyHeader());
             });
-            builder.Services.AddDbContext<ApplicationDbContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
+            var connectionString = Environment.GetEnvironmentVariable("SQLSERVER_CONNECTION_STRING") ?? builder.Configuration.GetConnectionString("Default");
+            Console.WriteLine($"Using connection string: {connectionString}");
+            builder.Services.AddDbContext<ApplicationDbContext>(opt => opt.UseSqlServer(connectionString));
             builder.Services.AddScoped<IFileService, FileService>();
             var key = Encoding.UTF8.GetBytes(builder.Configuration["JwtBearer:SecretKey"]!);
 

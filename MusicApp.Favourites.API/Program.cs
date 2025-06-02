@@ -1,6 +1,8 @@
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using MusicApp.Favourites.API.Services;
+using StackExchange.Redis;
 using System.Text;
 
 namespace MusicApp.Favourites.API
@@ -17,6 +19,12 @@ namespace MusicApp.Favourites.API
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddScoped<IConnectionMultiplexer>(sp =>
+            {
+                var connection = Environment.GetEnvironmentVariable("REDIS_CONNECTION_STRING") ?? "localhost:6379";
+                return ConnectionMultiplexer.Connect(connection);
+            });
+            builder.Services.AddScoped<IRedisService, RedisService>();
             builder.Services.AddCors(builder =>
             {
                 builder.AddPolicy("AllowAllOrigins",

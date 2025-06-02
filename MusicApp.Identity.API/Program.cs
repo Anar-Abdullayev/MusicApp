@@ -17,7 +17,8 @@ namespace MusicApp.Identity.API
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            var connectionString = builder.Configuration.GetConnectionString("Default");
+            var connectionString = Environment.GetEnvironmentVariable("SQLSERVER_CONNECTION_STRING") ?? builder.Configuration.GetConnectionString("Default");
+            Console.WriteLine($"Connection String: {connectionString}");
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddScoped<ITokenService, TokenService>();

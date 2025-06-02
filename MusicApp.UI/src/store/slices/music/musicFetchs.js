@@ -1,6 +1,7 @@
 import axios from "axios";
 import { musicActions } from "./musicSlice";
-const baseURL = import.meta.env.VITE_API_MUSIC_URL;
+// const baseURL = import.meta.env.VITE_API_MUSIC_URL;
+const baseURL = import.meta.env.VITE_API_URL+'/music';
 export const uploadMusicFetch = (form) => {
   return async (dispatch) => {
     console.log("baseURL: ", baseURL);
@@ -41,7 +42,7 @@ export const deleteMusicFetch = (id) => {
         },
       });
       console.log("Music deleted:", response.data);
-      dispatch(getMusicsFetch()); // Refresh the music list after deletion
+      dispatch(getMusicsFetch());
     }
     catch (error) {
       console.error("Error deleting music:", error);
